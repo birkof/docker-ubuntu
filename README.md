@@ -3,15 +3,37 @@ docker-ubuntu
 
 A base image for running just about anything within a container, based on Ubuntu 14.04 LTS (Trusty Tahr)
 
+
+Process management
+------------------
+
+This image includes [supervisord](supervisord) process manager, to make it super simple to start processes and manage them correctly.
+[supervisord]: http://supervisord.org
+
+
 Usage
 -----
 
 To use this image include `FROM birkof/ubuntu` at the top of your `Dockerfile`. 
 
+To start your service using supervisord:
+
+- create a folder at `/etc/supervisor/conf.d`
+- create a file in your new folder called `program_name.conf`
+- inside that file throw service configuration directives, for example:
+
+```
+[program:nginx]
+command         = /usr/sbin/nginx -g "daemon off;"
+stdout_logfile  = /var/log/supervisor/%(program_name)s.log
+stderr_logfile  = /var/log/supervisor/%(program_name)s.log
+autorestart     = true
+```
+
 Examples
 --------
 
-An example of using this image can be found in the [birkof/nginx-php-fpm-symfony][docker-snp] [Dockerfile][docker-snp-dockerfile].
+An example of using this image can be found in the [birkof/nginx-php-fpm-symfony][docker-nps] [Dockerfile][docker-nps-dockerfile].
 
-[docker-snp]: https://hub.docker.com/r/birkof/nginx-php-fpm-symfony/
-[docker-snp-dockerfile]: https://github.com/birkof/docker-symfony-nginx-php-fpm/blob/master/Dockerfile
+[docker-nps]: https://hub.docker.com/r/birkof/nginx-php-fpm-symfony/
+[docker-nps-dockerfile]: https://github.com/birkof/docker-symfony-nginx-php-fpm/blob/master/Dockerfile
