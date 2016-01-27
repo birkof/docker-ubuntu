@@ -1,0 +1,5 @@
+# Temporary files
+/tmp/
+
+# Mac OSX related files
+.DS_Store
