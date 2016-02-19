@@ -52,6 +52,12 @@ RUN curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git
 # Force color bash prompt
 RUN sed -i "s/#force_color_prompt=yes/force_color_prompt=yes/" ~/.bashrc
 
+# Enable bash completion
+RUN echo "\n# Enable programmable completion features" >> ~/.bashrc \
+    && echo 'if [ -f /etc/bash_completion ] && ! shopt -oq posix; then' >> ~/.bashrc \
+    && echo '    . /etc/bash_completion' >> ~/.bashrc \
+    && echo 'fi' >> ~/.bashrc
+
 # Configure system timezone
 RUN echo $TIMEZONE > /etc/timezone; dpkg-reconfigure tzdata
 
