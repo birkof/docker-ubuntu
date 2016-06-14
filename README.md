@@ -16,19 +16,6 @@ Usage
 
 To use this image include `FROM birkof/ubuntu` at the top of your `Dockerfile`. 
 
-To start your service using supervisord:
-
-- create a folder at `assets/etc/supervisor/conf.d`
-- create a file in your new folder called `program_name.conf`
-- inside that file throw service configuration directives, for example:
-
-```
-[program:nginx]
-command         = /usr/sbin/nginx -g "daemon off;"
-stdout_logfile  = /var/log/supervisor/%(program_name)s.log
-stderr_logfile  = /var/log/supervisor/%(program_name)s.log
-autorestart     = true
-```
 
 Examples
 --------
