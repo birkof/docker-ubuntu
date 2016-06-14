@@ -39,7 +39,7 @@ RUN apt-get install -yq --no-install-recommends \
     bash-completion
 
 # Injecting container assets files
-ADD assets /
+ADD sbin /
 
 # Supervisor installation && set nodaemon to true
 RUN apt-get install -yq --no-install-recommends supervisor \
@@ -69,10 +69,6 @@ RUN export LANG=C.UTF-8 \
 RUN apt-get update \
     && apt-get install -yq --no-install-recommends hh
     
-# Install latest Node.js package
-RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - \
-    && apt-get install -yq --no-install-recommends nodejs
-
 # Clean up the mess
 RUN apt-get autoclean \
     && apt-get clean \
