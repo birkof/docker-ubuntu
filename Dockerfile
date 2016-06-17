@@ -39,7 +39,7 @@ RUN apt-get install -yq --no-install-recommends \
     bash-completion
 
 # Injecting container assets files
-ADD sbin /
+ADD sbin /sbin
 
 # Supervisor installation && set nodaemon to true
 RUN apt-get install -yq --no-install-recommends supervisor \
