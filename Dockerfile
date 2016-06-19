@@ -77,7 +77,7 @@ COPY bootstrap.sh /usr/local/bin/bootstrap
 RUN chmod +x /usr/local/bin/bootstrap
 
 # SSHd service in a container 
-RUN mkdir /var/run/sshd
+RUN mkdir -p {/var/run/sshd,/root/.ssh}
 RUN echo 'root:password' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
