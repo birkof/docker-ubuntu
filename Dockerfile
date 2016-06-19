@@ -36,10 +36,8 @@ RUN apt-get install -yq --no-install-recommends \
     curl \
     git-core \
     openssh-client \
+    openssh-server \
     bash-completion
-
-# Injecting container assets files
-ADD sbin /sbin
 
 # Supervisor installation && set nodaemon to true
 RUN apt-get install -yq --no-install-recommends supervisor \
@@ -74,8 +72,26 @@ RUN apt-get autoclean \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Sets the working directory for entrypoint file
-WORKDIR /sbin
+# Injecting container bootstrap file
+COPY bootstrap.sh /usr/local/bin/bootstrap
+RUN chmod +x /usr/local/bin/bootstrap
+
+# SSHd service in a container 
+RUN mkdir /var/run/sshd
+RUN echo 'root:password' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
+# SSHd on supervisor
+RUN echo '[program:sshd]' > /etc/supervisor/conf.d/sshd.conf \
+    && echo 'command=/usr/sbin/sshd -D' >> /etc/supervisor/conf.d/sshd.conf
+
+EXPOSE 22
 
 # Default entrypoint
-ENTRYPOINT ["bootstrap.sh"]
+ENTRYPOINT ["bootstrap"]
