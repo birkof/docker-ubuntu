@@ -36,6 +36,7 @@ RUN apt-get install -yq --no-install-recommends \
     joe \
     wget \
     curl \
+    ack-grep \
     git-core \
     openssh-client \
     openssh-server \
