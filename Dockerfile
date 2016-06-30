@@ -33,8 +33,10 @@ RUN apt-get install -yq --no-install-recommends \
     less \
     vim \
     nano \
+    joe \
     wget \
     curl \
+    ack-grep \
     git-core \
     openssh-client \
     openssh-server \
