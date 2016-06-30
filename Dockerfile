@@ -32,6 +32,7 @@ RUN apt-get install -yq --no-install-recommends \
     mc \
     less \
     vim \
+    nano \
     wget \
     curl \
     git-core \
