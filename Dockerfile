@@ -94,7 +94,19 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 # SSHd on supervisor
 RUN echo '[program:sshd]' > /etc/supervisor/conf.d/sshd.conf \
-    && echo 'command=/usr/sbin/sshd -D' >> /etc/supervisor/conf.d/sshd.conf
+    && echo 'command=/usr/sbin/sshd -D' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stdout_logfile	= /var/log/supervisor/%(program_name)s.log' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stderr_logfile	= /var/log/supervisor/%(program_name)s.log' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stdout_events_enabled = true' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stderr_events_enabled = true' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stdout_logfile_maxbytes = 1MB' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stdout_logfile_backups = 0' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stderr_logfile_maxbytes = 1MB' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'stderr_logfile_backups = 0' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'autostart = true' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'autorestart = true' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'startsecs = 3' >> /etc/supervisor/conf.d/sshd.conf \
+    && echo 'priority = 1' >> /etc/supervisor/conf.d/sshd.conf
 
 EXPOSE 22
 
