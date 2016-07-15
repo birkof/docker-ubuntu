@@ -80,7 +80,9 @@ COPY bootstrap.sh /usr/local/bin/bootstrap
 RUN chmod +x /usr/local/bin/bootstrap
 
 # SSHd service in a container 
-RUN mkdir -p {/var/run/sshd,/root/.ssh}
+RUN mkdir -p /var/run/sshd \
+    && mkdir -p /root/.ssh
+
 RUN echo 'root:password' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/UsePrivilegeSeparation yes/UsePrivilegeSeparation no/' /etc/ssh/sshd_config
