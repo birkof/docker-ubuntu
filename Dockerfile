@@ -58,6 +58,15 @@ RUN echo "\n# Enable programmable completion features" >> ~/.bashrc \
     && echo 'if [ -f /etc/bash_completion ] && ! shopt -oq posix; then' >> ~/.bashrc \
     && echo '    . /etc/bash_completion' >> ~/.bashrc \
     && echo 'fi' >> ~/.bashrc
+    
+# Enable ssh agent
+RUN echo "\n# Enable ssh agent" >> ~/.bashrc \
+&& echo 'if [ ! -S ~/.ssh/ssh_auth_sock ]; then' >> ~/.bashrc \
+&& echo '  eval `ssh-agent`' >> ~/.bashrc \
+&& echo '  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock' >> ~/.bashrc \
+&& echo 'fi' >> ~/.bashrc \
+&& echo 'export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock' >> ~/.bashrc \
+&& echo 'ssh-add -l | grep "The agent has no identities" && ssh-add' >> ~/.bashrc
 
 # Configure system timezone
 RUN echo $TIMEZONE > /etc/timezone; dpkg-reconfigure tzdata
